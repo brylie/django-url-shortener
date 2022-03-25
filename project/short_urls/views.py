@@ -13,8 +13,7 @@ class ShortUrlCreateView(CreateView):
     fields = ['redirect_url']
 
     def get_success_url(self):
-        print("short url success url")
-        return reverse('short-url-detail', kwargs={'pk' : self.object.pk})
+        return reverse('short-url-detail', kwargs={'slug' : self.object.slug})
 
 
 class ShortUrlDeleteView(DeleteView):
@@ -27,7 +26,7 @@ class ShortUrlDetailView(DetailView):
 
 
 class ShortUrlRedirectView(View):
-    def get(self, request, pk):
-        short_url = ShortUrl.objects.get(pk=pk)
+    def get(self, request, slug):
+        short_url = ShortUrl.objects.get(slug=slug)
 
         return redirect(short_url.redirect_url)
