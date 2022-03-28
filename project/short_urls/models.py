@@ -11,7 +11,7 @@ class ShortUrl(models.Model):
     slug = models.SlugField(null=True)
 
     def save(self, *args, **kwargs):
-        # Generate short URL slug from ID in a single transaction
+        # Generate short URL slug from current datetime and redirect URL
         # Using hashlib
         # Pro, non-sequential, so hard to guess
         # Pro: uses only standardlib
