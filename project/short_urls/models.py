@@ -1,7 +1,10 @@
+from datetime import datetime, timedelta
 import hashlib
 
-from django.db import models, transaction
+from django.db import models
+from django.db.models import Count
 from django.urls import reverse
+from django.utils import timezone
 
 from datetime import datetime
 
@@ -30,7 +33,7 @@ class ShortUrl(models.Model):
 
         # Create unique hash string from datetime now and redirect URL
         hash_string = f"{ datetime_now_iso }-{ self.redirect_url }".encode()
-        
+
         # Generate hash of desired length
         hashlib_slug = hashlib.shake_256(hash_string).hexdigest(hash_length)
         self.slug = hashlib_slug
@@ -39,4 +42,18 @@ class ShortUrl(models.Model):
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('short-url-detail', kwargs={'pk': self.pk})
+        return reverse("short-url-detail", kwargs={"pk": self.pk})
+
+    def get_recent_daily_visit_counts(self, num_days=7):
+        """
+        Return daily visit counts for past number of days.
+        """
+        today = timezone.now()
+        time_delta = timedelta(days=num_days)
+        previous_datetime = today - time_delta
+
+        analytics_data = self.visits.filter(
+            occurred__gte=previous_datetime
+        ).extra({"date_occurred": "date(occurred)"}).values("date_occurred").annotate(visit_count=Count("id"))
+
+        return analytics_data
