@@ -4,7 +4,7 @@ from short_urls.models import ShortUrl
 
 
 class ShortUrlVisit(models.Model):
-    short_url = models.ForeignKey(to=ShortUrl, on_delete=models.CASCADE)
+    short_url = models.ForeignKey(to=ShortUrl, on_delete=models.CASCADE, related_name="visits")
     occurred = models.DateTimeField()
 
     class Meta:
