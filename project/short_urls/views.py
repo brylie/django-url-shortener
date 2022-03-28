@@ -1,10 +1,12 @@
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
+from django.utils import timezone
 from django.views import View
 from django.views.decorators.http import require_http_methods
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, DeleteView
 
+from analytics.models import ShortUrlVisit
 from .models import ShortUrl
 
 
@@ -27,6 +29,17 @@ class ShortUrlDetailView(DetailView):
 
 class ShortUrlRedirectView(View):
     def get(self, request, slug):
+        # Get desired short URL object
         short_url = ShortUrl.objects.get(slug=slug)
+
+        # Get the current, timezone-aware datetime
+        now = timezone.now()
+
+        # Record a visit for this short URL
+        # using current datetime
+        ShortUrlVisit.objects.create(
+            short_url=short_url,
+            occurred=now,
+        )
 
         return redirect(short_url.redirect_url)
