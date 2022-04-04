@@ -1,8 +1,9 @@
+from typing import Any, Dict
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.views import View
-from django.views.decorators.http import require_http_methods
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, DeleteView
 
@@ -14,7 +15,7 @@ class ShortUrlCreateView(CreateView):
     model = ShortUrl
     fields = ['redirect_url']
 
-    def get_success_url(self):
+    def get_success_url(self) -> str:
         return reverse('short-url-detail', kwargs={'slug' : self.object.slug})
 
 
@@ -28,7 +29,7 @@ class ShortUrlDetailView(DetailView):
 
 
 class ShortUrlRedirectView(View):
-    def get(self, request, slug):
+    def get(self, request: HttpRequest, slug: str) -> HttpResponse:
         # Get desired short URL object
         short_url = ShortUrl.objects.get(slug=slug)
 
