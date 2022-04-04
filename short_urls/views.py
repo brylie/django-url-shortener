@@ -27,6 +27,11 @@ class ShortUrlDeleteView(DeleteView):
 class ShortUrlDetailView(DetailView):
     model = ShortUrl
 
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+
+        return context
+
 
 class ShortUrlRedirectView(View):
     def get(self, request: HttpRequest, slug: str) -> HttpResponse:
