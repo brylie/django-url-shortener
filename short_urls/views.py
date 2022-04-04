@@ -1,4 +1,7 @@
 from typing import Any, Dict
+
+from django.db.models import Count
+from django.db.models.functions import TruncDay
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
@@ -13,15 +16,15 @@ from .models import ShortUrl
 
 class ShortUrlCreateView(CreateView):
     model = ShortUrl
-    fields = ['redirect_url']
+    fields = ["redirect_url"]
 
     def get_success_url(self) -> str:
-        return reverse('short-url-detail', kwargs={'slug' : self.object.slug})
+        return reverse("short-url-detail", kwargs={"slug": self.object.slug})
 
 
 class ShortUrlDeleteView(DeleteView):
     model = ShortUrl
-    success_url = reverse_lazy('short-url-create')
+    success_url = reverse_lazy("short-url-create")
 
 
 class ShortUrlDetailView(DetailView):
@@ -29,6 +32,18 @@ class ShortUrlDetailView(DetailView):
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
+
+        short_url = context["shorturl"]
+
+        analytics = (
+            short_url.visits.all()
+            .annotate(date=TruncDay("occurred"))
+            .values("date")
+            .annotate(visits_count=Count("id"))
+            .order_by("date")
+        )
+
+        context["analytics"] = analytics
 
         return context
 
