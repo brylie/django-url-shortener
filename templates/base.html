@@ -1,3 +1,6 @@
-<p>In base.html</p>
+<body>
+    {% block content %}{% endblock content %}
 
-{% block content %}{% endblock content %}
+    <!-- extra JavaScript is placed after content -->
+    {% block extra_js %}{% endblock extra_js %}
+</body>
