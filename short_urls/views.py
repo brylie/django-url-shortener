@@ -35,6 +35,8 @@ class ShortUrlDetailView(DetailView):
 
         short_url = context["shorturl"]
 
+        # Aggregate visit counts by day
+        # https://stackoverflow.com/a/41930880/1191545
         analytics = (
             short_url.visits.all()
             .annotate(date=TruncDay("occurred"))
