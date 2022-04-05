@@ -44,8 +44,9 @@ class ShortUrlDetailView(DetailView):
             .annotate(visits_count=Count("id"))
             .order_by("date")
         )
-
-        context["analytics"] = analytics
+        # Add analytics to context data as list
+        # so it can be parsed to JSON in the template
+        context["analytics"] = list(analytics)
 
         return context
 
