@@ -17,9 +17,14 @@
     <dd>{{ shorturl.redirect_url }}</dd>
 </dl>
 
-<div id="chart"></div>
+{% if analytics %}
+    <div id="chart"></div>
 
-{{ analytics|json_script:"analytics" }}
+    {{ analytics|json_script:"analytics" }}
+{% else %}
+    <p>No visitors yet. Check back later for daily visitor counts.</p>
+{% endif %}
+
 
 <!-- Modal -->
 <div class="modal fade" id="deleteShortUrlModal" tabindex="-1" aria-labelledby="deleteShortUrlModalLabel" aria-hidden="true">
