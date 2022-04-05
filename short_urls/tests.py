@@ -1,9 +1,10 @@
 from typing import List
-from django.test import RequestFactory, TestCase
+
+from django.test import TestCase
 from django.urls import reverse
 
 from .models import ShortUrl
-from .views import ShortUrlDetailView
+
 
 class ShortUrlTestCase(TestCase):
     def setUp(self):
@@ -52,3 +53,19 @@ class ShortUrlDetailViewTestCase(TestCase):
 
         self.assertIn("full_url", context)
         self.assertIsInstance(context["full_url"], str)
+
+
+class FrontPageTestCase(TestCase):
+    def test_front_page_contains_short_url_create_form(self):
+        front_page_route = "/"
+        response = self.client.get(front_page_route)
+
+        # Response context should contain ShortUrlCreate form
+        # The form class is created automatically by Django
+        # so we look for the presence of a form property in the context
+        # and check the form class
+        expected_form_class = "<class 'django.forms.widgets.ShortUrlForm'>"
+        response_form_class = str(type(response.context["form"]))
+
+        self.assertIn("form", response.context)
+        self.assertEqual(expected_form_class, response_form_class)
