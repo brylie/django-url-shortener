@@ -12,7 +12,7 @@
 
 <dl>
     <dt>Short URL</dt>
-    <dd>{{ request.scheme}}://{{ request.get_host }}/{{ shorturl.slug }}</dd>
+    <dd><a href="{{ full_url }}">{{ full_url }}</a></dd>
     <dt>Redirect to</dt>
     <dd>{{ shorturl.redirect_url }}</dd>
 </dl>
