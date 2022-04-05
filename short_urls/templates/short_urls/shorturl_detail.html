@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<p>URL detail</p>
-{{ object.redirect_url }}
+<h1>URL detail</h1>
+
+<p>Redirect to: {{ object.redirect_url }}</p>
 {% endblock content %}
