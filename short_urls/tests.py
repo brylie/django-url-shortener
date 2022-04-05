@@ -37,3 +37,19 @@ class ShortUrlDetailViewTest(TestCase):
 
         self.assertIn("analytics", context)
         self.assertIsInstance(context["analytics"], List)
+
+    def test_full_url_in_context(self):
+        """Short URL detail view should have full URL string in context"""
+        short_url_url = reverse(
+            "short-url-detail",
+            kwargs={
+                "slug": self.short_url.slug,
+            }
+        )
+        response = self.client.get(short_url_url)
+        
+        context = response.context
+
+        self.assertIn("full_url", context)
+        self.assertIsInstance(context["full_url"], str)
+
