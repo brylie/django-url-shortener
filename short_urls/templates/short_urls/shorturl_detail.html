@@ -3,7 +3,10 @@
 {% load static %}
 
 {% block content %}
-<h1>URL detail</h1>
+<h1>
+    URL detail
+    <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteShortUrlModal">Delete</button>
+</h1>
 
 <p>Bookmark this page to view visit counts for this short URL.</p>
 
@@ -17,6 +20,31 @@
 <div id="chart"></div>
 
 {{ analytics|json_script:"analytics" }}
+
+<!-- Modal -->
+<div class="modal fade" id="deleteShortUrlModal" tabindex="-1" aria-labelledby="deleteShortUrlModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteShortUrlModalLabel">Warning</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+        <div class="modal-body">
+            <p>This action is irreversable.</p>
+            <p>Are you sure you want to delete this short URL and related visit counts? </p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+            
+            <!-- send POST directly to delete URL since we are using confirmation modal -->
+            <form method="POST" action="{% url 'short-url-delete' shorturl.slug %}">
+                {% csrf_token %}
+                <input type="submit" class="btn btn-primary" value="Yes">
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
 
 {% endblock content %}
 
