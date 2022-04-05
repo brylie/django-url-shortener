@@ -56,17 +56,20 @@ class ShortUrlDetailViewTestCase(TestCase):
 
 
 class FrontPageTestCase(TestCase):
+    def setUp(self):
+        front_page_route = "/"
+        self.response = self.client.get(front_page_route)
+    
     def test_front_page_contains_short_url_create_form(self):
         """Front page should render the short URL create form"""
-        front_page_route = "/"
-        response = self.client.get(front_page_route)
+        response_form = self.response.context["form"]
 
         # Response context should contain ShortUrlCreate form
         # The form class is created automatically by Django
         # so we look for the presence of a form property in the context
         # and check the form class
         expected_form_class = "<class 'django.forms.widgets.ShortUrlForm'>"
-        response_form_class = str(type(response.context["form"]))
+        response_form_class = str(type(response_form))
 
-        self.assertIn("form", response.context)
+        self.assertIn("form", self.response.context)
         self.assertEqual(expected_form_class, response_form_class)
