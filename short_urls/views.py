@@ -35,6 +35,9 @@ class ShortUrlDetailView(DetailView):
 
         short_url = context["shorturl"]
 
+        # Construct a full URL with scheme (HTTP/HTTPS), host, and URL slug
+        context["full_url"] = f"{ self.request.scheme }://{ self.request.get_host() }/{ short_url.slug}"
+
         # Aggregate visit counts by day
         # https://stackoverflow.com/a/41930880/1191545
         analytics = (
