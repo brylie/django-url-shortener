@@ -57,6 +57,7 @@ class ShortUrlDetailViewTestCase(TestCase):
 
 class FrontPageTestCase(TestCase):
     def test_front_page_contains_short_url_create_form(self):
+        """Front page should render the short URL create form"""
         front_page_route = "/"
         response = self.client.get(front_page_route)
 
