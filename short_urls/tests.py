@@ -16,7 +16,7 @@ class ShortUrlTestCase(TestCase):
         self.assertIsNotNone(short_url.slug)
 
 
-class ShortUrlDetailViewTest(TestCase):
+class ShortUrlDetailViewTestCase(TestCase):
     def setUp(self):
         # Create a testing short URL
         self.short_url = ShortUrl.objects.create(
@@ -52,4 +52,3 @@ class ShortUrlDetailViewTest(TestCase):
 
         self.assertIn("full_url", context)
         self.assertIsInstance(context["full_url"], str)
-
