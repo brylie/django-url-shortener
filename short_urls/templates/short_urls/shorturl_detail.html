@@ -5,7 +5,14 @@
 {% block content %}
 <h1>URL detail</h1>
 
-<p>Redirect to: {{ object.redirect_url }}</p>
+<p>Bookmark this page to view visit counts for this short URL.</p>
+
+<dl>
+    <dt>Short URL</dt>
+    <dd>{{ request.scheme}}://{{ request.get_host }}/{{ shorturl.slug }}</dd>
+    <dt>Redirect to</dt>
+    <dd>{{ shorturl.redirect_url }}</dd>
+</dl>
 
 <div id="chart"></div>
 
