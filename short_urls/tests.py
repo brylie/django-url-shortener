@@ -59,6 +59,10 @@ class FrontPageTestCase(TestCase):
     def setUp(self):
         front_page_route = "/"
         self.response = self.client.get(front_page_route)
+
+    def test_front_page_returns_success(self):
+        """Front page should return success response"""
+        self.assertEqual(self.response.status_code, 200)
     
     def test_front_page_contains_short_url_create_form(self):
         """Front page should render the short URL create form"""
