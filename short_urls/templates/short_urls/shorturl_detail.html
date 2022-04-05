@@ -1,7 +1,20 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block content %}
 <h1>URL detail</h1>
 
 <p>Redirect to: {{ object.redirect_url }}</p>
+
+<div id="chart"></div>
+
+{{ analytics|json_script:"analytics" }}
+
 {% endblock content %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.4.2/d3.min.js" integrity="sha512-3lwhBbuZju4M2+VWgp4BEisEYHToIvEte8a3Ygg1EmtXKFWkHCc6aNvAaQdztsPBSdxbF2i2UVbaxke62tc6tA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.plot.ly/plotly-2.9.0.min.js"></script>
+<script src="{% static 'js/visits_chart.js' %}"></script>
+{% endblock extra_js %}
