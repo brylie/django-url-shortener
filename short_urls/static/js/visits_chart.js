@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
       showgrid: false,
       zeroline: true,
       dtick: oneDay,
+      type: "time",
     },
     yaxis: {
       title: "Visit count",
