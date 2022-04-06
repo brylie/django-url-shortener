@@ -23,16 +23,16 @@ class ShortUrlDetailViewTestCase(TestCase):
         self.short_url = ShortUrl.objects.create(
             redirect_url="https://google.com",
         )
-
-    def test_analytics_list_in_context(self):
-        """Short URL detail view should have analytics list in context"""
-        short_url_url = reverse(
+        self.short_url_url = reverse(
             "short-url-detail",
             kwargs={
                 "slug": self.short_url.slug,
             }
         )
-        response = self.client.get(short_url_url)
+
+    def test_analytics_list_in_context(self):
+        """Short URL detail view should have analytics list in context"""
+        response = self.client.get(self.short_url_url)
         
         context = response.context
 
@@ -41,18 +41,19 @@ class ShortUrlDetailViewTestCase(TestCase):
 
     def test_full_url_in_context(self):
         """Short URL detail view should have full URL string in context"""
-        short_url_url = reverse(
-            "short-url-detail",
-            kwargs={
-                "slug": self.short_url.slug,
-            }
-        )
-        response = self.client.get(short_url_url)
+        response = self.client.get(self.short_url_url)
         
         context = response.context
 
         self.assertIn("full_url", context)
         self.assertIsInstance(context["full_url"], str)
+
+    def test_page_contains_delete_button(self):
+        """Short URL detail view should contain a delete button"""
+        
+        response = self.client.get(self.short_url_url)
+
+        self.assertContains(response, "delete-button")
 
 
 class FrontPageTestCase(TestCase):
