@@ -42,7 +42,7 @@ class ShortUrl(models.Model):
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse("short-url-detail", kwargs={"pk": self.pk})
+        return reverse("short-url-detail", kwargs={"slug": self.slug})
 
     def get_recent_daily_visit_counts(self, num_days=7):
         """
