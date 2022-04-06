@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import ShortUrl
+
+
+@admin.register(ShortUrl)
+class ShortUrlAdmin(admin.ModelAdmin):
+    list_display = ('redirect_url', 'slug',)
