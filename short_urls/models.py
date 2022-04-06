@@ -57,3 +57,6 @@ class ShortUrl(models.Model):
         ).extra({"date_occurred": "date(occurred)"}).values("date_occurred").annotate(visit_count=Count("id"))
 
         return analytics_data
+
+    def __str__(self):
+        return self.redirect_url
