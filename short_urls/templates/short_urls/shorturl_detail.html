@@ -15,6 +15,8 @@
     <dd><a href="{{ full_url }}">{{ full_url }}</a></dd>
     <dt>Redirect to</dt>
     <dd><a href="{{ shorturl.redirect_url }}">{{ shorturl.redirect_url }}</a></dd>
+    <dt>Detail page</dt>
+    <dd><a href="{{ request.build_absolute_uri }}">{{ request.build_absolute_uri }}</a></dd>
 </dl>
 
 {% if analytics %}
