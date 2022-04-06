@@ -57,8 +57,8 @@ class ShortUrlDetailViewTestCase(TestCase):
 
 class FrontPageTestCase(TestCase):
     def setUp(self):
-        front_page_route = "/"
-        self.response = self.client.get(front_page_route)
+        self.front_page_route = "/"
+        self.response = self.client.get(self.front_page_route)
 
     def test_front_page_returns_success(self):
         """Front page should return success response"""
@@ -77,3 +77,30 @@ class FrontPageTestCase(TestCase):
 
         self.assertIn("form", self.response.context)
         self.assertEqual(expected_form_class, response_form_class)
+
+    def test_front_page_success_redirects_to_short_url(self):
+        """
+        Successfully submitting the short URL form on the front page
+        should redirect to the ShortUrl detail view
+        """
+        redirect_status_code = 302
+        redirect_url = "https://test.com"
+
+        # Prepare form data
+        post_data = {
+            "redirect_url": redirect_url,
+        }
+
+        # Submit form
+        response = self.client.post(
+            self.front_page_route,
+            post_data,
+        )
+
+        # Get the newly created short URL and detail page URL
+        short_url = ShortUrl.objects.get(redirect_url=redirect_url)
+        short_url_detail_url = reverse("short-url-detail", kwargs={"slug": short_url.slug})
+
+        # Ensure the response redirects to the new short URL detail page
+        self.assertEqual(response.status_code, redirect_status_code)
+        self.assertRedirects(response, short_url_detail_url)
