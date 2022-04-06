@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     {
       x: analyticsData.map((datum) => datum["date"]),
       y: analyticsData.map((datum) => datum["visits_count"]),
-      type: "scatter",
+      type: "bar",
       mode: 'markers',
     },
   ];
