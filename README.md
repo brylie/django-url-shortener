@@ -8,7 +8,7 @@ A URL shortener written in Django.
 3. create a virtual environment `python -m venv env`
 4. activate the virtual environment 
     - `source env/bin/activate` (Linux/Mac)
-    - `.\venv\Scripts\activate` (Windows)
+    - `.\env\Scripts\activate` (Windows)
  5. install project dependencies `pip install -r requirements.txt`
  6. run database migrations `python manage.py migrate`
  7. create a superuser `python manage.py createsuperuser`
